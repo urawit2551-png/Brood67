@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>67</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Kanit', sans-serif, Tahoma;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f7f1e5;
+            color: #5c4033;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .card {
+            background: #f0e6d2;
+            padding: 40px 25px;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(92, 64, 51, 0.08);
+            text-align: center;
+            max-width: 380px;
+            width: 100%;
+            min-height: 420px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid #e4d5bc;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .title-67 {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #8c6d58;
+            letter-spacing: 2px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .sprout-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            animation: bounce 1.5s infinite alternate;
+            display: inline-block;
+        }
+
+        @keyframes bounce {
+            0% { transform: scale(1) rotate(-5deg); }
+            100% { transform: scale(1.15) rotate(5deg); }
+        }
+
+        p {
+            font-size: 1.05rem;
+            line-height: 1.65;
+            color: #6b5240;
+            word-break: break-word;
+        }
+
+        .btn-bottom-zone {
+            width: 100%;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            min-height: 50px;
+        }
+
+        button {
+            padding: 12px 32px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(92, 64, 51, 0.1);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        /* ปุ่มถัดไปแบบลอยขึ้นลงอ่อนๆ */
+        .btn-primary {
+            background-color: #8c6d58;
+            color: #fff;
+            animation: btnFloat 2.5s ease-in-out infinite;
+            position: relative;
+        }
+
+        @keyframes btnFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .btn-primary:active {
+            transform: scale(0.95);
+        }
+
+        .btn-no {
+            background-color: #d9c5b2;
+            color: #5c4033;
+            z-index: 999;
+            transition: all 0.15s ease-out;
+        }
+
+        .step-page {
+            display: none;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .step-page.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .step-page.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- หน้าที่ 1 -->
+        <div class="step-page active show" id="step1">
+            <div class="content">
+                <div class="title-67">67</div>
+            </div>
+            <div class="btn-bottom-zone">
+                <button class="btn-primary" onclick="handleNextWithSmoke(event, 2)">ถัดไป</button>
+            </div>
+        </div>
+
+        <!-- หน้าที่ 2 -->
+        <div class="step-page" id="step2">
+            <div class="content">
+                <p>แฮ่มๆ จริงจังละครับ<br>คือก็ขอโทษที่ทำให้รอนานนะครับ<br>แต่เค้าก็มีเรื่องจะบอกเธอได้สักทีนะครับ</p>
+            </div>
+            <div class="btn-bottom-zone">
+                <button class="btn-primary" onclick="handleNextWithSmoke(event, 3)">ถัดไป</button>
+            </div>
+        </div>
+
+        <!-- หน้าที่ 3 (เพิ่มใหม่) -->
+        <div class="step-page" id="step3">
+            <div class="content">
+                <p>คือกว่าจะมาถึงจุดนี้มันไม่ง่ายเลยเนอะหลายๆรอบที่จากกันไม่ว่าจะรอบแรกรอบสองก็เถอะ พูดตรงๆเค้าก็รักเธอจริงๆนะครับ เค้าก็ไม่เก่งด้านนี้เท่าไหร่หรอก ไม่รู้ว่าการที่มานั่งส่งเว็บแบบนี้เธอจะพอใจแค่ไหน หรือโอเคมากมั้ยแต่เค้าไม่สนหรอก ครับเค้าตั้งใจจะทำมันให้เธอจริงๆนะ</p>
+            </div>
+            <div class="btn-bottom-zone">
+                <button class="btn-primary" onclick="handleNextWithSmoke(event, 4)">ถัดไป</button>
+            </div>
+        </div>
+
+        <!-- หน้าที่ 4 (คำถาม) -->
+        <div class="step-page" id="step4">
+            <div class="content">
+                <p style="font-size: 1.5rem; font-weight: bold; color: #8c6d58;">Pen fan gun mai??</p>
+            </div>
+            <div class="btn-bottom-zone">
+                <button class="btn-primary" onclick="acceptProposal()">ใช่</button>
+                <button class="btn-no" id="noBtn" ontouchstart="warpButton()" onclick="warpButton()">ไม่</button>
+            </div>
+        </div>
+
+        <!-- หน้าสุดท้าย (ตอบใช่) -->
+        <div class="step-page" id="step5">
+            <div class="content">
+                <div class="sprout-icon">🌱</div>
+                <p>เย้ ถึงอาจจะช้าไปซักหน่อยแต่เค้าก็ตั้งใจจะขอคบเธอจริงๆนะครับ ต่อจากนี้พยายามไปด้วยกันนะ</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function nextStep(stepNumber) {
+            const pages = document.querySelectorAll('.step-page');
+            pages.forEach(page => page.classList.remove('show'));
+
+            setTimeout(() => {
+                pages.forEach(page => page.classList.remove('active'));
+                const targetPage = document.getElementById('step' + stepNumber);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                    setTimeout(() => targetPage.classList.add('show'), 20);
+                }
+            }, 300);
+        }
+
+        // ฟังก์ชันสร้างควันกระจายตอนกดปุ่มถัดไป
+        function handleNextWithSmoke(event, nextStepNum) {
+            triggerSmokeEffect(event);
+            nextStep(nextStepNum);
+        }
+
+        function triggerSmokeEffect(e) {
+            const rect = e.target.getBoundingClientRect();
+            const x = (rect.left + rect.width / 2) / window.innerWidth;
+            const y = (rect.top + rect.height / 2) / window.innerHeight;
+
+            // พลุละอองควันพุ่งกระจายจากปุ่ม
+            confetti({
+                particleCount: 25,
+                spread: 50,
+                startVelocity: 15,
+                origin: { x: x, y: y },
+                colors: ['#e4d5bc', '#d9c5b2', '#ffffff', '#f7f1e5'],
+                ticks: 40,
+                gravity: 0.6,
+                scalar: 1.2
+            });
+        }
+
+        function warpButton() {
+            const noBtn = document.getElementById('noBtn');
+            const padding = 30;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        function acceptProposal() {
+            nextStep(5);
+            triggerSproutConfetti();
+        }
+
+        function triggerSproutConfetti() {
+            const count = 200;
+            const defaults = { origin: { y: 0.7 } };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            fire(0.25, { spread: 26, startVelocity: 55, shapes: ['square'], colors: ['#a8e6cf', '#dbedc6', '#8c6d58'] });
+            fire(0.2, { spread: 60, colors: ['#88d8b0', '#74b9ff', '#f7f1e5'] });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, colors: ['#a8e6cf', '#8c6d58'] });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+        }
+    </script>
+</body>
+</html>
